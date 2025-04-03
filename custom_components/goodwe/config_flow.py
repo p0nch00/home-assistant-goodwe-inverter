@@ -79,7 +79,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             CONF_NETWORK_TIMEOUT, DEFAULT_NETWORK_TIMEOUT
         )
         modbus_id = self.entry.options.get(
-            CONF_MODBUS_ID, DEFAULT_MODBUS_ID
+            CONF_MODBUS_ID, self.entry.data[CONF_MODBUS_ID]
         )
 
         return self.async_show_form(
