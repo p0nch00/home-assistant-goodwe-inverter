@@ -127,7 +127,7 @@ class GoodweFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
             try:
                 inverter = await connect(
-                    host=host, port=port, family=model_family, retries=10, modbus_id=modbus_id
+                    host=host, port=port, family=model_family, retries=10, comm_addr=modbus_id
                 )
             except InverterError:
                 errors[CONF_HOST] = "connection_error"
