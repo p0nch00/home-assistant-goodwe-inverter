@@ -52,13 +52,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         raise ConfigEntryNotReady from err
 
     device_info = DeviceInfo(
-        configuration_url="https://www.semsportal.com",
+        configuration_url="https://github.com/p0nch00/home-assistant-goodwe-inverter",
         identifiers={(DOMAIN, inverter.serial_number)},
         name=entry.title,
         manufacturer="GoodWe",
         model=inverter.model_name,
         sw_version=f"{inverter.firmware} / {inverter.arm_firmware}",
-        hw_version=f"{inverter.serial_number[5:8]} {inverter.serial_number[0:5]}",
+        hw_version=f"{inverter.serial_number}",
     )
 
     # Create update coordinator

@@ -13,5 +13,5 @@
   "issue_tracker": "https://github.com/p0nch00/home-assistant-goodwe-inverter/issues",
   "loggers": ["goodwe"],
   "requirements": ["git+https://github.com/p0nch00/goodwe.git@fix-illegal-address#egg=goodwe"],
-  "version": "0.9.9.31"
+  "version": "0.9.9.32"
 }
