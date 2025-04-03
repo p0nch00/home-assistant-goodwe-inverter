@@ -22,7 +22,6 @@ from .const import (
     DEFAULT_NAME,
     DEFAULT_NETWORK_RETRIES,
     DEFAULT_NETWORK_TIMEOUT,
-    DEFAULT_MODBUS_ID,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
 )
@@ -33,7 +32,7 @@ CONFIG_SCHEMA = vol.Schema(
         vol.Required(CONF_HOST): str,
         vol.Required(CONF_PROTOCOL, default="UDP"): vol.In(PROTOCOL_CHOICES),
         vol.Required(CONF_MODEL_FAMILY, default="ET"): str,
-        vol.Optional(CONF_MODBUS_ID, default="247"): int,
+        vol.Required(CONF_MODBUS_ID, default="247"): int,
     }
 )
 OPTIONS_SCHEMA = vol.Schema(
@@ -42,8 +41,8 @@ OPTIONS_SCHEMA = vol.Schema(
         vol.Required(CONF_PROTOCOL): vol.In(PROTOCOL_CHOICES),
         vol.Required(CONF_KEEP_ALIVE): cv.boolean,
         vol.Required(CONF_MODEL_FAMILY): str,
-        vol.Optional(CONF_SCAN_INTERVAL): int,
         vol.Optional(CONF_MODBUS_ID): int,
+        vol.Optional(CONF_SCAN_INTERVAL): int,
         vol.Optional(CONF_NETWORK_RETRIES): cv.positive_int,
         vol.Optional(CONF_NETWORK_TIMEOUT): cv.positive_int,
     }
@@ -72,14 +71,14 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         model_family = self.entry.options.get(
             CONF_MODEL_FAMILY, self.entry.data[CONF_MODEL_FAMILY]
         )
+        modbus_id = self.entry.options.get(
+            CONF_MODBUS_ID, self.entry.data[CONF_MODBUS_ID]
+        )
         network_retries = self.entry.options.get(
             CONF_NETWORK_RETRIES, DEFAULT_NETWORK_RETRIES
         )
         network_timeout = self.entry.options.get(
             CONF_NETWORK_TIMEOUT, DEFAULT_NETWORK_TIMEOUT
-        )
-        modbus_id = self.entry.options.get(
-            CONF_MODBUS_ID, self.entry.data[CONF_MODBUS_ID]
         )
 
         return self.async_show_form(
@@ -91,12 +90,12 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                     CONF_PROTOCOL: protocol,
                     CONF_KEEP_ALIVE: keep_alive,
                     CONF_MODEL_FAMILY: model_family,
+                    CONF_MODBUS_ID: modbus_id,
                     CONF_SCAN_INTERVAL: self.entry.options.get(
                         CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
                     ),
                     CONF_NETWORK_RETRIES: network_retries,
                     CONF_NETWORK_TIMEOUT: network_timeout,
-                    CONF_MODBUS_ID: modbus_id,
                 },
             ),
         )
