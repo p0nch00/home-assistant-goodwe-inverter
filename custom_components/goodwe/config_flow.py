@@ -33,7 +33,7 @@ CONFIG_SCHEMA = vol.Schema(
         vol.Required(CONF_HOST): str,
         vol.Required(CONF_PROTOCOL, default="UDP"): vol.In(PROTOCOL_CHOICES),
         vol.Required(CONF_MODEL_FAMILY, default="ET"): str,
-        vol.Optional(CONF_MODBUS_ID): int,
+        vol.Optional(CONF_MODBUS_ID, default="247"): int,
     }
 )
 OPTIONS_SCHEMA = vol.Schema(
@@ -122,11 +122,12 @@ class GoodweFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             host = user_input[CONF_HOST]
             protocol = user_input[CONF_PROTOCOL]
             model_family = user_input[CONF_MODEL_FAMILY]
+            modbus_id = user_input[CONF_MODBUS_ID]
             port = 502 if protocol == "TCP" else 8899
 
             try:
                 inverter = await connect(
-                    host=host, port=port, family=model_family, retries=10
+                    host=host, port=port, family=model_family, retries=10, modbus_id=modbus_id
                 )
             except InverterError:
                 errors[CONF_HOST] = "connection_error"
@@ -140,6 +141,7 @@ class GoodweFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                         CONF_HOST: host,
                         CONF_PROTOCOL: protocol,
                         CONF_MODEL_FAMILY: type(inverter).__name__,
+                        CONF_MODBUS_ID: modbus_id,
                     },
                 )
 
