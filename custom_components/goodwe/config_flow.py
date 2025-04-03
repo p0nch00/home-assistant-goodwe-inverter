@@ -131,7 +131,7 @@ class GoodweFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             except InverterError:
                 errors[CONF_HOST] = "connection_error"
             else:
-                await self.async_set_unique_id(inverter.serial_number)
+                await self.async_set_unique_id(inverter.serial_number+modbus_id)
                 self._abort_if_unique_id_configured()
 
                 return self.async_create_entry(
